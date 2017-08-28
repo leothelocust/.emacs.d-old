@@ -77,6 +77,12 @@
 (electric-pair-mode 1)
 (show-paren-mode 1)
 
+;; show buffer file name in title bar
+(setq frame-title-format
+      '((:eval (if (buffer-file-name)
+		   (abbreviate-file-name (buffer-file-name))
+		 "%b"))))
+
 (use-package company
   :diminish company-mode
   :init (add-hook 'after-init-hook 'global-company-mode))
@@ -162,6 +168,9 @@
   (add-hook 'minibuffer-setup-hook #'solaire-mode-in-minibuffer)
   (solaire-mode-swap-bg)
   :demand)
+
+;; set default font
+(set-face-attribute 'default nil :font (font-spec :family "Fira Mono" :size 11))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
