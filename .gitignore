@@ -6,3 +6,6 @@ recentf
 *~
 projectile*
 server
+url
+flycheck*
+.DS_Store

@@ -12,11 +12,15 @@
 (eval-when-compile
   (require 'use-package))
 
+;; Global Key Bindings
+(global-set-key "\M-o" 'other-window)
+
 ;; Always check if package has been downloaded
 (setq use-package-always-ensure t)
 
-;; Turn off tab indentation
-(setq indent-tabs-mode nil)
+;; Turn off tab indentation and set default tab width
+(setq-default indent-tabs-mode nil)
+(setq-default tab-width 4)
 
 ;; Turn off mouse inerface
 (menu-bar-mode 0)
@@ -66,11 +70,12 @@
 (if (eq system-type "darwin")
     (progn
       (use-package exec-path-from-shell
-	:config (exec-path-from-shell-initialize))
+	:config (exec-path-from-shell-initialize)
+	:demand)
 
       ;; use zsh installed from brew
       (setq explicit-shell-file-name "/usr/local/bin/zsh")
-      (set-frame-font "Pragmata Pro 12" t t)
+      ;; (set-frame-font "Pragmata Pro 12" t t)
       (setq dired-use-ls-dired nil)))
 
 ;; electric-pair-mode
@@ -109,6 +114,7 @@
   ("C-c j" . counsel-git-grep))
 
 (use-package magit
+  :bind ("C-c m" . magit-status)
   :config
   (setq magit-completing-read-function 'ivy-completing-read))
 
@@ -125,27 +131,82 @@
 (use-package flycheck
   :init (global-flycheck-mode))
 
-(use-package omnisharp
-  :bind (("C-c o t" . omnisharp-go-to-definition)
-	 ("C-c o o" . omnisharp-go-to-definition-other-window)
-	 ("C-c o b" . pop-tag-mark))
-  :config
-  (add-hook 'csharp-mode-hook 'omnisharp-mode)
-  (add-to-list 'company-backends 'company-omnisharp)
-  (defun my-csharp-mode-setup ()
-    (setq c-syntactic-indentation t)
-    (c-set-style "ellemtel")
-    (setq c-basic-offset 4)
-    (setq truncate-lines t)
-    (setq tab-width 4))
+(use-package rainbow-delimiters)
 
-  (add-hook 'csharp-mode-hook 'my-csharp-mode-setup t)
-  :demand)
+(use-package typescript-mode
+  :mode "\\.ts$"
+  :init
+  (add-hook 'typescript-mode-hook #'rainbow-delimiters-mode))
+
+(use-package tide
+  :after typescript-mode
+  :config
+  (add-to-list 'company-backends 'company-tide)
+  (setq tide-format-options
+        '(:insertSpaceAfterFunctionKeywordForAnonymousFunctions t
+          :placeOpenBraceOnNewLineForFunctions nil))
+
+  (defun init-tide ()
+      (tide-setup))
+  (add-hook 'typescript-mode-hook #'init-tide))
+
+(use-package js2-mode
+  :mode "\\.js$"
+  :config
+  (add-hook 'js2-mode-hook #'js2-imenu-extras-mode)
+  (add-hook 'js2-mode-hook #'tide-setup)
+  (flycheck-add-next-checker 'javascript-eslint 'javascript-tide 'append))
+
+;; (use-package omnisharp
+;;   :bind (("M-." . omnisharp-go-to-definition)
+;; 	 ("C-M-." . omnisharp-go-to-definition-other-window)
+;; 	 ("M-," . pop-tag-mark))
+;;   :config
+;;   (add-hook 'csharp-mode-hook 'omnisharp-mode)
+;;   (add-hook 'omnisharp-mode-hook 'rainbow-delimiters-mode)
+;;   (add-to-list 'company-backends 'company-omnisharp)
+;;   (defun my-csharp-mode-setup ()
+;;     (setq c-syntactic-indentation t)
+;;     (c-set-style "ellemtel")
+;;     (setq c-basic-offset 4)
+;;     (setq truncate-lines t))
+    
+;;   (add-hook 'csharp-mode-hook 'my-csharp-mode-setup t)
+;;   :demand)
 
 (use-package web-mode
   :mode
   "\\.html?\\'"
   "\\.cshtml?\\'")
+
+
+;; (use-package js2-refactor
+;;   :config
+;;   (add-hook 'js2-mode-hook #'js2-refactor-mode)
+;;   (js2r-add-keybindings-with-prefix "C-c C-r")
+;;   (define-key js2-mode-map (kbd "C-k") #'js2r-kill)
+;;   (define-key js-mode-map (kbd "M-.") nil))
+
+;; (use-package xref-js2
+;;   :config
+;;   (add-hook 'js2-mode-hook (lambda ()
+;;                              (add-hook 'xref-backend-functions #'xref-js2-xref-backend nil t))))
+
+;; (use-package company-tern
+;;   :config
+;;   (add-to-list 'company-backends 'company-tern)
+;;   (add-hook 'js2-mode-hook (lambda ()
+;;                              (tern-mode)
+;;                              (company-mode)))
+;;   (define-key tern-mode-keymap (kbd "M-.") nil)
+;;   (define-key tern-mode-keymap (kbd "M-,") nil))
+
+(use-package json-mode
+  :mode "\\.json?\\'")
+
+(setq-default flycheck-disabled-checkers
+              (append flycheck-disabled-checkers
+                      '(javascript-jshint json-jsonlint)))
 
 (use-package doom-themes
   :config
@@ -169,6 +230,10 @@
   (solaire-mode-swap-bg)
   :demand)
 
+(use-package org
+  :config
+  (setq org-log-done t))
+
 ;; set default font
 (set-face-attribute 'default nil :font (font-spec :family "Fira Mono" :size 11))
 
@@ -178,7 +243,9 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(initial-frame-alist (quote ((fullscreen . maximized))))
- '(package-selected-packages (quote (gitignore-mode omnisharp company use-package))))
+ '(package-selected-packages
+   (quote
+    (xref-js2 js2-mode json-mode org-mode tide gitignore-mode omnisharp company use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
