@@ -12,6 +12,19 @@
 (eval-when-compile
   (require 'use-package))
 
+(defun rename-file-and-buffer (new-name)
+  "Renames both current buffer and file it's visiting to NEW-NAME."
+  (interactive "sNew name: ")
+  (let ((name (buffer-name))
+        (filename (buffer-file-name)))
+    (if (not filename)
+        (message "Buffer '%s' is not visiting a file!" name)
+      (if (get-buffer new-name)
+          (message "A buffer named '%s' already exists!" new-name)
+        (progn
+          (rename-file filename new-name 1)
+          (rename-buffer new-name))))))
+
 ;; Global Key Bindings
 (global-set-key "\M-o" 'other-window)
 
@@ -70,8 +83,8 @@
 (if (eq system-type "darwin")
     (progn
       (use-package exec-path-from-shell
-	:config (exec-path-from-shell-initialize)
-	:demand)
+        :config (exec-path-from-shell-initialize)
+        :demand)
 
       ;; use zsh installed from brew
       (setq explicit-shell-file-name "/usr/local/bin/zsh")
@@ -86,7 +99,10 @@
 (setq frame-title-format
       '((:eval (if (buffer-file-name)
 		   (abbreviate-file-name (buffer-file-name))
-		 "%b"))))
+           "%b"))))
+
+;; Refresh from disk on file change
+(global-auto-revert-mode t)
 
 (use-package company
   :diminish company-mode
@@ -154,25 +170,25 @@
   :mode "\\.js$"
   :config
   (add-hook 'js2-mode-hook #'js2-imenu-extras-mode)
-  (add-hook 'js2-mode-hook #'tide-setup)
-  (flycheck-add-next-checker 'javascript-eslint 'javascript-tide 'append))
+  (add-hook 'js2-mode-hook #'tide-setup))
+;;  (flycheck-add-next-checker 'javascript-eslint 'javascript-tide 'append))
 
-;; (use-package omnisharp
-;;   :bind (("M-." . omnisharp-go-to-definition)
-;; 	 ("C-M-." . omnisharp-go-to-definition-other-window)
-;; 	 ("M-," . pop-tag-mark))
-;;   :config
-;;   (add-hook 'csharp-mode-hook 'omnisharp-mode)
-;;   (add-hook 'omnisharp-mode-hook 'rainbow-delimiters-mode)
-;;   (add-to-list 'company-backends 'company-omnisharp)
-;;   (defun my-csharp-mode-setup ()
-;;     (setq c-syntactic-indentation t)
-;;     (c-set-style "ellemtel")
-;;     (setq c-basic-offset 4)
-;;     (setq truncate-lines t))
+(use-package omnisharp
+  :bind (("M-." . omnisharp-go-to-definition)
+	 ("C-M-." . omnisharp-go-to-definition-other-window)
+	 ("M-," . pop-tag-mark))
+  :config
+  (add-hook 'csharp-mode-hook 'omnisharp-mode)
+  (add-hook 'omnisharp-mode-hook 'rainbow-delimiters-mode)
+  (add-to-list 'company-backends 'company-omnisharp)
+  (defun my-csharp-mode-setup ()
+    (setq c-syntactic-indentation t)
+    (c-set-style "ellemtel")
+    (setq c-basic-offset 4)
+    (setq truncate-lines t))
     
-;;   (add-hook 'csharp-mode-hook 'my-csharp-mode-setup t)
-;;   :demand)
+  (add-hook 'csharp-mode-hook 'my-csharp-mode-setup t)
+  :demand)
 
 (use-package web-mode
   :mode
