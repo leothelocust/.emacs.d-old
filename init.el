@@ -25,8 +25,18 @@
           (rename-file filename new-name 1)
           (rename-buffer new-name))))))
 
+(defun duplicate-line()
+  (interactive)
+  (move-beginning-of-line 1)
+  (kill-line)
+  (yank)
+  (open-line 1)
+  (forward-line 1)
+  (yank))
+
 ;; Global Key Bindings
 (global-set-key "\M-o" 'other-window)
+(global-set-key (kbd "C-c d") 'duplicate-line)
 
 ;; Always check if package has been downloaded
 (setq use-package-always-ensure t)
