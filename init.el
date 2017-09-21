@@ -244,7 +244,7 @@
 
 (use-package base16-theme
   :ensure t
-  :config (load-theme 'base16-isotope t))
+  :config (load-theme 'base16-bright t))
 
 (use-package gitignore-mode
   :config (add-hook 'gitignore-mode-hook (lambda ()
