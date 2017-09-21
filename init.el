@@ -234,27 +234,21 @@
               (append flycheck-disabled-checkers
                       '(javascript-jshint json-jsonlint)))
 
-(use-package doom-themes
-  :config
-  (setq doom-themes-enable-bold t
-	doom-themes-enable-italic t)
-  (load-theme 'doom-one t)
-  (doom-themes-visual-bell-config)
-;;  (doom-themes-neotree-config)
-  (doom-themes-org-config))
+(use-package markdown-mode
+  :ensure t
+  :commands (markdown-mode gfm-mode)
+  :mode (("README\\.md\\'" . gfm-mode)
+         ("\\.md\\'" . markdown-mode)
+         ("\\.markdown\\'" . markdown-mode))
+  :init (setq markdown-command "multimarkdown"))
+
+(use-package base16-theme
+  :ensure t
+  :config (load-theme 'base16-isotope t))
 
 (use-package gitignore-mode
   :config (add-hook 'gitignore-mode-hook (lambda ()
 					   (setq require-final-newline t))))
-
-(use-package solaire-mode
-  :config
-  (add-hook 'after-change-major-mode-hook #'turn-on-solaire-mode)
-  (add-hook 'ediff-prepare-buffer-hook #'solaire-mode)
-;;  (add-hook 'after-revert-hook #'turn-on-solaire-mode)
-  (add-hook 'minibuffer-setup-hook #'solaire-mode-in-minibuffer)
-  (solaire-mode-swap-bg)
-  :demand)
 
 (use-package org
   :config
@@ -268,10 +262,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(initial-frame-alist (quote ((fullscreen . maximized))))
- '(package-selected-packages
-   (quote
-    (xref-js2 js2-mode json-mode org-mode tide gitignore-mode omnisharp company use-package))))
+ '(initial-frame-alist (quote ((fullscreen . maximized)))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
