@@ -235,7 +235,6 @@
                       '(javascript-jshint json-jsonlint)))
 
 (use-package markdown-mode
-  :ensure t
   :commands (markdown-mode gfm-mode)
   :mode (("README\\.md\\'" . gfm-mode)
          ("\\.md\\'" . markdown-mode)
@@ -243,7 +242,6 @@
   :init (setq markdown-command "multimarkdown"))
 
 (use-package base16-theme
-  :ensure t
   :config (load-theme 'base16-bright t))
 
 (use-package gitignore-mode
@@ -255,10 +253,13 @@
   (setq org-log-done t))
 
 (use-package ledger-mode
-  :ensure t
   :init
   (setq ledger-clear-whole-transactions 1)
   :mode "\\.dat\\'")
+
+(use-package flymd
+  :bind
+  ("C-c f" . flymd-flyit))
 
 ;; set default font
 (set-face-attribute 'default nil :font (font-spec :family "Fira Mono" :size 11))
