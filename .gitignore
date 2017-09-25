@@ -9,3 +9,4 @@ server
 url
 flycheck*
 .DS_Store
+network-security.data
