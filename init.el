@@ -261,8 +261,12 @@
   :bind
   ("C-c f" . flymd-flyit))
 
+(use-package restclient
+  :mode
+  "\\.http\\'")
+
 ;; set default font
-(set-face-attribute 'default nil :font (font-spec :family "Fira Mono" :size 11))
+(set-face-attribute 'default nil :font (font-spec :family "Essential PragmataPro" :size 11))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -272,7 +276,7 @@
  '(initial-frame-alist (quote ((fullscreen . maximized))))
  '(package-selected-packages
    (quote
-    (emacs-doom-themes ledger-mode xref-js2 web-mode use-package tide solaire-mode rainbow-delimiters omnisharp markdown-mode magit json-mode js2-refactor gitignore-mode doom-themes counsel-projectile company-tern color-theme-sanityinc-tomorrow base16-theme))))
+    (restclient emacs-doom-themes ledger-mode xref-js2 web-mode use-package tide solaire-mode rainbow-delimiters omnisharp markdown-mode magit json-mode js2-refactor gitignore-mode doom-themes counsel-projectile company-tern color-theme-sanityinc-tomorrow base16-theme))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
