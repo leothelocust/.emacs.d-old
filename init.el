@@ -241,8 +241,28 @@
          ("\\.markdown\\'" . markdown-mode))
   :init (setq markdown-command "multimarkdown"))
 
-(use-package base16-theme
-  :config (load-theme 'base16-bright t))
+(use-package all-the-icons)
+
+(use-package doom-themes
+  :config
+  (setq doom-themes-enable-bold t
+        doom-themes-enable-italic t)
+  (load-theme 'doom-one t)
+  (doom-themes-visual-bell-config)
+  (doom-themes-neotree-config)
+  (doom-themes-org-config))
+
+(use-package solaire-mode
+  :config
+  (add-hook 'after-change-major-mode-hook #'turn-on-solaire-mode)
+  (add-hook 'ediff-prepare-buffer-hook #'solaire-mode)
+  (add-hook 'after-revert-hook #'turn-on-solaire-mode)
+  (add-hook 'minibuffer-setup-hook #'solaire-mode-in-minibuffer)
+  (solaire-mode-swap-bg)
+  :demand t)
+
+;; (use-package base16-theme
+;;   :config (load-theme 'base16-bright t))
 
 (use-package gitignore-mode
   :config (add-hook 'gitignore-mode-hook (lambda ()
@@ -262,8 +282,86 @@
   ("C-c f" . flymd-flyit))
 
 (use-package restclient
-  :mode
-  "\\.http\\'")
+  :commands (restclient-mode)
+  :mode "\\.http\\'")
+
+(use-package neotree
+  :demand t
+  :config
+  (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
+  (setq neo-smart-open t)
+  (setq projectile-switch-project-action 'neotree-projectile-action)
+  (defun neotree-project-dir ()
+    "Open NeoTree using the git root."
+    (interactive)
+    (let ((project-dir (projectile-project-root))
+          (file-name (buffer-file-name)))
+      (neotree-toggle)
+      (if project-dir
+          (if (neo-global--window-exists-p)
+              (progn
+                (neotree-dir project-dir)
+                (neotree-find file-name)))
+        (message "Could not find git project root."))))
+  (setq neo-window-width 50)
+  (global-set-key [f8] 'neotree-project-dir))
+
+;; Silence compiler warnings
+(defvar sql-product)
+(defvar sql-prompt-regexp)
+(defvar sql-prompt-cont-regexp)
+
+(add-hook 'sql-interactive-mode-hook 'my-sql-interactive-mode-hook)
+(defun my-sql-interactive-mode-hook ()
+  "Custom interactive SQL mode behaviours. See `sql-interactive-mode-hook'."
+  (when (eq sql-product 'postgres)
+    ;; Allow symbol chars in database names in prompt.
+    ;; Default postgres pattern was: "^\\w*=[#>] " (see `sql-product-alist').
+    (setq sql-prompt-regexp "^\\(?:\\sw\\|\\s_\\)*=[#>] ")
+    ;; Ditto for continuation prompt: "^\\w*[-(][#>] "
+    (setq sql-prompt-cont-regexp "^\\(?:\\sw\\|\\s_\\)*[-(][#>] "))
+
+  ;; Deal with inline prompts in query output.
+  ;; Runs after `sql-interactive-remove-continuation-prompt'.
+  (add-hook 'comint-preoutput-filter-functions
+            'my-sql-comint-preoutput-filter :append :local))
+
+(defun my-sql-comint-preoutput-filter (output)
+  "Filter prompts out of SQL query output.
+
+Runs after `sql-interactive-remove-continuation-prompt' in
+`comint-preoutput-filter-functions'."
+  ;; If the entire output is simply the main prompt, return that.
+  ;; (i.e. When simply typing RET at the sqli prompt.)
+  (if (string-match (concat "\\`\\(" sql-prompt-regexp "\\)\\'") output)
+      output
+    ;; Otherwise filter all leading prompts from the output.
+    ;; Store the buffer-local prompt patterns before changing buffers.
+    (let ((main-prompt sql-prompt-regexp)
+          (any-prompt comint-prompt-regexp) ;; see `sql-interactive-mode'
+          (prefix-newline nil))
+      (with-temp-buffer
+        (insert output)
+        (goto-char (point-min))
+        (when (looking-at main-prompt)
+          (setq prefix-newline t))
+        (while (looking-at any-prompt)
+          (replace-match ""))
+        ;; Prepend a newline to the output, if necessary.
+        (when prefix-newline
+          (goto-char (point-min))
+          (unless (looking-at "\n")
+            (insert "\n")))
+        ;; Return the filtered output.
+        (buffer-substring-no-properties (point-min) (point-max))))))
+
+(defadvice sql-send-string (before my-prefix-newline-to-sql-string)
+  "Force all `sql-send-*' commands to include an initial newline.
+
+This is a trivial solution to single-line queries tripping up my
+custom output filter.  (See `my-sql-comint-preoutput-filter'.)"
+  (ad-set-arg 0 (concat "\n" (ad-get-arg 0))))
+(ad-activate 'sql-send-string)
 
 ;; set default font
 (set-face-attribute 'default nil :font (font-spec :family "Essential PragmataPro" :size 11))
@@ -276,7 +374,7 @@
  '(initial-frame-alist (quote ((fullscreen . maximized))))
  '(package-selected-packages
    (quote
-    (restclient emacs-doom-themes ledger-mode xref-js2 web-mode use-package tide solaire-mode rainbow-delimiters omnisharp markdown-mode magit json-mode js2-refactor gitignore-mode doom-themes counsel-projectile company-tern color-theme-sanityinc-tomorrow base16-theme))))
+    (all-the-icons neotree restclient emacs-doom-themes ledger-mode xref-js2 web-mode use-package tide solaire-mode rainbow-delimiters omnisharp markdown-mode magit json-mode js2-refactor gitignore-mode doom-themes counsel-projectile company-tern color-theme-sanityinc-tomorrow base16-theme))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
