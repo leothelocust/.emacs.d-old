@@ -1,7 +1,7 @@
 (require 'package)
 (setq package-enable-at-startup nil)
 (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
-(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
+;; (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
 (add-to-list 'package-archives '("melpa-stable" . "http://stable.melpa.org/packages/"))
 (package-initialize)
 
@@ -10,7 +10,21 @@
   (package-install 'use-package))
 
 (eval-when-compile
-  (require 'use-package))
+  (require 'use-package)
+  (package-refresh-contents))
+
+(setq use-package-always-ensure t)
+
+;; (use-package try)
+
+;; (use-package which-key
+;;   :config
+;;   (which-key-setup-minibuffer)
+;;   (which-key-mode))
+
+(use-package org-bullets
+  :config
+  (add-hook 'org-mode-hook (lambda () (org-bullets-mode t))))
 
 (defun rename-file-and-buffer (new-name)
   "Renames both current buffer and file it's visiting to NEW-NAME."
@@ -37,9 +51,6 @@
 ;; Global Key Bindings
 (global-set-key "\M-o" 'other-window)
 (global-set-key (kbd "C-c d") 'duplicate-line)
-
-;; Always check if package has been downloaded
-(setq use-package-always-ensure t)
 
 ;; Turn off tab indentation and set default tab width
 (setq-default indent-tabs-mode nil)
@@ -306,6 +317,16 @@
   (setq neo-window-width 50)
   (global-set-key [f8] 'neotree-project-dir))
 
+(use-package ox-twbs)
+
+(setq org-publish-project-alist
+      '(("org-notes"
+         :base-directory "~/org/"
+         :publishing-directory "~/public_html/"
+         :publishing-function org-twbs-publish-to-html
+         :with-sub-superscript nil
+         )))
+
 ;; Silence compiler warnings
 (defvar sql-product)
 (defvar sql-prompt-regexp)
@@ -374,7 +395,7 @@ custom output filter.  (See `my-sql-comint-preoutput-filter'.)"
  '(initial-frame-alist (quote ((fullscreen . maximized))))
  '(package-selected-packages
    (quote
-    (all-the-icons neotree restclient emacs-doom-themes ledger-mode xref-js2 web-mode use-package tide solaire-mode rainbow-delimiters omnisharp markdown-mode magit json-mode js2-refactor gitignore-mode doom-themes counsel-projectile company-tern color-theme-sanityinc-tomorrow base16-theme))))
+    (ox-twbs org-bullets all-the-icons neotree restclient emacs-doom-themes ledger-mode xref-js2 web-mode use-package tide solaire-mode rainbow-delimiters omnisharp markdown-mode magit json-mode js2-refactor gitignore-mode doom-themes counsel-projectile company-tern color-theme-sanityinc-tomorrow base16-theme))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
