@@ -350,6 +350,16 @@ Removes initial startup screen and hides scroll and toolbars
     (setq neo-window-width 50)
     (global-set-key [f8] 'neotree-project-dir))
 
+  (use-package ox-twbs)
+
+  (setq org-publish-project-alist
+        '(("org-notes"
+           :base-directory "~/org/"
+           :publishing-directory "~/public_html/"
+           :publishing-function org-twbs-publish-to-html
+           :with-sub-superscript nil
+           )))
+
   ;; Silence compiler warnings
   (defvar sql-product)
   (defvar sql-prompt-regexp)
