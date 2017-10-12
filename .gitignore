@@ -10,3 +10,4 @@ url
 flycheck*
 .DS_Store
 network-security.data
+configuration.el
