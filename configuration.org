@@ -113,8 +113,17 @@ Removes initial startup screen and hides scroll and toolbars
             (rename-file filename new-name 1)
             (rename-buffer new-name))))))
 
+  (defvar backup-dir (expand-file-name "~/.emacs.d/backup/"))
+  (defvar autosave-dir (expand-file-name "~/.emacs.d/autosave/"))
+  (setq backup-directory-alist (list (cons ".*" backup-dir)))
+  (setq auto-save-list-file-prefix autosave-dir)
+  (setq auto-save-file-name-transforms `((".*" ,autosave-dir t)))
+
   (global-auto-revert-mode t)
 #+END_SRC
+
+#+RESULTS:
+: t
 
 ** Completion and Search
 
@@ -206,7 +215,6 @@ Removes initial startup screen and hides scroll and toolbars
     (add-hook 'js2-mode-hook #'tide-setup))
   ;;  (flycheck-add-next-checker 'javascript-eslint 'javascript-tide 'append))
 #+END_SRC
-
 *** C#
 #+BEGIN_SRC emacs-lisp
   (use-package omnisharp
@@ -259,6 +267,47 @@ Removes initial startup screen and hides scroll and toolbars
     :init (setq markdown-command "multimarkdown"))
 #+END_SRC
 
+*** Go
+#+BEGIN_SRC emacs-lisp
+  (use-package go-mode
+    :mode "\\.go$"
+    :config
+    (defun my-go-mode-hook ()
+      (add-hook 'before-save-hook 'gofmnt-before-save)
+      (local-set-key (kbd "M-.") 'godef-jump)
+      (local-set-key (kbd "M-,") 'pop-tag-mark))
+    (add-hook 'go-mode-hook 'my-go-mode-hook))
+
+  (use-package company-go
+    :config
+    (add-hook 'go-mode-hook (lambda ()
+                              (set (make-local-variable 'company-backends) '(company-go))
+                              (setq company-tooltip-limit 20)
+                              (setq company-idle-delay .3)
+                              (setq company-echo-delay 0)
+                              (setq company-begin-commands '(self-insert-command)))))
+
+  (use-package go-playground)
+
+  (use-package gorepl-mode
+    :config
+    (add-hook 'go-mode-hook #'gorepl-mode))
+
+  (defun set-exec-path-from-shell-PATH ()
+    (let ((path-from-shell (replace-regexp-in-string
+                            "[ \t\n]*$"
+                            ""
+                            (shell-command-to-string "$SHELL --login -i -c 'echo $PATH'"))))
+      (setenv "PATH" path-from-shell)
+      (setq eshell-path-env path-from-shell)
+      (setq exec-path (split-string path-from-shell path-separator))))
+
+  (when window-system (set-exec-path-from-shell-PATH))
+
+  (setenv "GOPATH" "/Users/cbergquist/go")
+  (add-to-list 'exec-path "/Users/cbergquist/go/bin")
+
+#+END_SRC
 * Project Management
 
 #+BEGIN_SRC emacs-lisp
