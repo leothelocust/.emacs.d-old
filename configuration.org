@@ -174,7 +174,6 @@ Removes initial startup screen and hides scroll and toolbars
 
   (use-package rainbow-delimiters)
 #+END_SRC
-
 ** Syntax Checking
 
 #+BEGIN_SRC emacs-lisp
@@ -304,8 +303,8 @@ Removes initial startup screen and hides scroll and toolbars
 
   (when window-system (set-exec-path-from-shell-PATH))
 
-  (setenv "GOPATH" "/Users/cbergquist/go")
-  (add-to-list 'exec-path "/Users/cbergquist/go/bin")
+  (setenv "GOPATH" "/home/cbergquist/go")
+  (add-to-list 'exec-path "/home/cbergquist/go/bin")
 
 #+END_SRC
 * Project Management
@@ -327,7 +326,53 @@ Removes initial startup screen and hides scroll and toolbars
   (use-package counsel-projectile
     :config (counsel-projectile-on))
 #+END_SRC
+* Org Mode
+#+BEGIN_SRC emacs-lisp
+  (use-package org
+    :bind
+    ("C-c c" . org-capture)
+    ("C-c l" . org-store-link)
+    ("C-c a" . org-agenda)
+    ("C-c b" . org-iswitchb)
+    :config
+    (setq org-log-done t)
+    (setq org-capture-templates '(("t" "Todo [inbox]" entry
+                                   (file+headline "~/gtd/inbox.org" "Tasks")
+                                   "* TODO %i%?")
+                                  ("T" "Tickler" entry
+                                   (file+headline "~/gtd/tickler.org" "Tickler")
+                                   "* %i%? \n %U")))
+    (setq org-refile-targets '(("~/gtd/gtd.org" :maxlevel . 3)
+                               ("~/gtd/someday.org" :level . 1)
+                               ("~/gtd/tickler.org" :maxlevel . 2)))
+    (setq org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)")))
+    (setq org-agenda-custom-commands
+          '(("t" "Thit" tags-todo "@thit"
+            ((org-agenda-overriding-header "Thit")
+             (org-agenda-skip-function #'my-org-agenda-skip-all-siblings-but-first)))
+            ("d" "DishOut" tags-todo "@dishout"
+             ((org-agenda-overriding-header "DishOut")
+              (org-agenda-skip-function #'my-org-agenda-skip-all-siblings-but-first)))))
+    (defun my-org-agenda-skip-all-siblings-but-first ()
+      "Skip all but the first non-done entry"
+      (let (should-skip-entry)
+        (unless (org-current-is-todo)
+          (setq should-skip-entry t))
+        (save-excursion
+          (while (and (not should-skip-entry) (org-goto-sibling t))
+            (when (org-current-is-todo)
+              (setq should-skip-entry t))))
+        (when should-skip-entry
+          (or (outline-next-heading)
+              (goto-char (point-max))))))
+    (defun org-current-is-todo ()
+      (string= "TODO" (org-get-todo-state))))
 
+  (use-package org-bullets
+    :diminish org-bullets-mode
+    :config
+    (add-hook 'org-mode-hook 'org-bullets-mode))
+#+END_SRC
 * TODO 
 #+BEGIN_SRC emacs-lisp
   (use-package which-key
@@ -342,20 +387,6 @@ Removes initial startup screen and hides scroll and toolbars
   (use-package gitignore-mode
     :config (add-hook 'gitignore-mode-hook (lambda ()
                                              (setq require-final-newline t))))
-
-  (use-package org
-    :bind
-    ("C-c c" . org-capture)
-    ("C-c l" . org-store-link)
-    ("C-c a" . org-agenda)
-    ("C-c b" . org-iswitchb)
-    :config
-    (setq org-log-done t))
-
-  (use-package org-bullets
-    :diminish org-bullets-mode
-    :config
-    (add-hook 'org-mode-hook 'org-bullets-mode))
 
   (use-package dockerfile-mode
     :mode "Dockerfile\\'")
@@ -383,7 +414,6 @@ Removes initial startup screen and hides scroll and toolbars
     :config
     (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
     (setq neo-smart-open t)
-    (setq projectile-switch-project-action 'neotree-projectile-action)
     (defun neotree-project-dir ()
       "Open NeoTree using the git root."
       (interactive)
@@ -467,7 +497,7 @@ Removes initial startup screen and hides scroll and toolbars
   (ad-activate 'sql-send-string)
 
   ;; set default font
-  (set-face-attribute 'default nil :font (font-spec :family "Essential PragmataPro" :size 11))
+  (set-face-attribute 'default nil :font (font-spec :family "Essential PragmataPro" :size 13))
 
   (custom-set-variables
    ;; custom-set-variables was added by Custom.

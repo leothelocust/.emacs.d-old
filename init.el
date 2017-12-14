@@ -14,7 +14,7 @@
  '(initial-frame-alist (quote ((fullscreen . maximized))))
  '(package-selected-packages
    (quote
-    (org-bullets docker-compose-mode dockerfile-mode try all-the-icons neotree restclient emacs-doom-themes ledger-mode xref-js2 web-mode use-package tide solaire-mode rainbow-delimiters omnisharp markdown-mode magit json-mode js2-refactor gitignore-mode doom-themes counsel-projectile company-tern color-theme-sanityinc-tomorrow base16-theme))))
+    (ob-restclient rudel org-bullets docker-compose-mode dockerfile-mode try all-the-icons neotree restclient emacs-doom-themes ledger-mode xref-js2 web-mode use-package tide solaire-mode rainbow-delimiters omnisharp markdown-mode magit json-mode js2-refactor gitignore-mode doom-themes counsel-projectile company-tern color-theme-sanityinc-tomorrow base16-theme))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

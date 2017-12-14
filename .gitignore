@@ -11,3 +11,5 @@ flycheck*
 .DS_Store
 network-security.data
 configuration.el
+autosave/
+.org-id-locations
