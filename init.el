@@ -1,20 +1,56 @@
+;; init.el --- Emacs configuration
 
-;; Added by Package.el.  This must come before configurations of
-;; installed packages.  Don't delete this line.  If you don't want it,
-;; just comment it out by adding a semicolon to the start of the line.
-;; You may delete these explanatory comments.
+;; AUTHOR: Chris Bergquist
+
+;;; Commentary:
+
+;;; Code:
+
+;; INSTALL PACKAGES
+;; --------------------------------------------------------------------
+
 (package-initialize)
 
-(org-babel-load-file (expand-file-name "configuration.org" user-emacs-directory))
+(let ((default-directory "~/.emacs.d/"))
+  (normal-top-level-add-subdirs-to-load-path))
+
+(require 'install-packages)
+(require 'better-defaults)
+
+;; BASIC CUSTOMIZATION
+;; --------------------------------------------------------------------
+
+(defvar backup-dir (expand-file-name "~/.emacs.d/backup/"))
+(defvar autosave-dir (expand-file-name "~/.emacs.d/autosave/"))
+
+(setq inhibit-startup-message t
+      initial-scratch-message nil
+      backup-directory-alist (list (cons ".*" backup-dir))
+      auto-save-list-file-prefix autosave-dir
+      auto-save-file-name-transforms `((".*" ,autosave-dir t)))
+
+(menu-bar-mode 0)
+(toggle-scroll-bar 0)
+(tool-bar-mode 0)
+
+(load-theme 'material t)
+(global-linum-mode t)
+(global-auto-revert-mode t)
+
+(defalias 'yes-or-no-p 'y-or-n-p)
+
+(require 'tools)
+(require 'development)
+
+;;; init.el ends here
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(initial-frame-alist (quote ((fullscreen . maximized))))
  '(package-selected-packages
    (quote
-    (ob-restclient rudel org-bullets docker-compose-mode dockerfile-mode try all-the-icons neotree restclient emacs-doom-themes ledger-mode xref-js2 web-mode use-package tide solaire-mode rainbow-delimiters omnisharp markdown-mode magit json-mode js2-refactor gitignore-mode doom-themes counsel-projectile company-tern color-theme-sanityinc-tomorrow base16-theme))))
+    (ivy-hydra which-key web-mode use-package tide solaire-mode rudel rainbow-delimiters py-autopep8 ox-twbs org-bullets omnisharp ob-restclient neotree material-theme markdown-mode magit ledger-mode json-mode gorepl-mode go-playground gitignore-mode flymd exec-path-from-shell elpy ein doom-themes dockerfile-mode docker-compose-mode counsel-projectile company-jedi company-go better-defaults))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

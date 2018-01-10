@@ -140,8 +140,12 @@ Removes initial startup screen and hides scroll and toolbars
     :config
     (ivy-mode 1)
     (setq ivy-use-virtual-buffers t)
-    (setq ivy-count-format "(%d/%d) ")
+    (setq ivy-height 10)
+    (setq ivy-count-format "")
+    (setq ivy-initial-inputs-alist nil)
     (setq enable-recursive-minibuffers t)
+    (setq ivy-re-builders-alist
+          '((t . ivy--regex-ignore-order)))
     :demand)
 
   (use-package counsel
@@ -152,6 +156,7 @@ Removes initial startup screen and hides scroll and toolbars
     ("C-c C-v" . counsel-describe-variable)
     ("C-c g" . counsel-git)
     ("C-c j" . counsel-git-grep))
+
 #+END_SRC
 
 * Editor
@@ -229,7 +234,7 @@ Removes initial startup screen and hides scroll and toolbars
       (c-set-style "ellemtel")
       (setq c-basic-offset 4)
       (setq truncate-lines t))
-      
+
     (add-hook 'csharp-mode-hook 'my-csharp-mode-setup t)
     :demand)
 #+END_SRC
@@ -373,7 +378,7 @@ Removes initial startup screen and hides scroll and toolbars
     :config
     (add-hook 'org-mode-hook 'org-bullets-mode))
 #+END_SRC
-* TODO 
+* TODO
 #+BEGIN_SRC emacs-lisp
   (use-package which-key
     :diminish which-key-mode
