@@ -7,6 +7,7 @@
 ;;; Code:
 
 (require 'which-key)
+(which-key-setup-minibuffer)
 (which-key-mode)
 
 (require '_company)

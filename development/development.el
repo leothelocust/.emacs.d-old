@@ -17,9 +17,24 @@
 (defvaralias 'c-basic-offset 'tab-width)
 (defvaralias 'cperl-indent-level 'tab-width)
 
+(electric-pair-mode 1)
+(show-paren-mode 1)
+
 (require '_python)
 (require '_golang)
 (require '_typescript)
+
+(require 'dockerfile-mode)
+(add-to-list 'auto-mode-alist '("Dockerfile*\\'" . dockerfile-mode))
+
+(require 'gitignore-mode)
+(add-to-list 'auto-mode-alist '("gitignore\\'" . gitignore-mode))
+
+(require 'json-mode)
+(add-to-list 'auto-mode-alist '("\\.json\\'" . json-mode))
+
+(require 'web-mode)
+(add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
 
 (provide 'development)
 

@@ -15,19 +15,25 @@
     counsel
     counsel-projectile
     diminish
+    dockerfile-mode
     ein
     elpy
+    gitignore-mode
     go-mode
     go-playground
     gorepl-mode
     flycheck
     ivy
     ivy-hydra
+    json-mode
     magit
     material-theme
     projectile
     py-autopep8
     rainbow-delimiters
+    tide
+    typescript-mode
+    web-mode
     which-key))
 
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))

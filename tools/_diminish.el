@@ -7,6 +7,7 @@
 ;;; Code:
 
 (require 'diminish)
+(diminish 'auto-revert-mode)
 (eval-after-load "company" '(diminish 'company-mode))
 (eval-after-load "counsel" '(diminish 'counsel-mode))
 (eval-after-load "elpy" '(diminish 'elpy-mode))
