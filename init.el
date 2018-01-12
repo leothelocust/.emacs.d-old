@@ -43,17 +43,3 @@
 (require 'development)
 
 ;;; init.el ends here
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   (quote
-    (ivy-hydra which-key web-mode use-package tide solaire-mode rudel rainbow-delimiters py-autopep8 ox-twbs org-bullets omnisharp ob-restclient neotree material-theme markdown-mode magit ledger-mode json-mode gorepl-mode go-playground gitignore-mode flymd exec-path-from-shell elpy ein doom-themes dockerfile-mode docker-compose-mode counsel-projectile company-jedi company-go better-defaults))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
