@@ -1,7 +1,5 @@
-!init.el
-!configuration.org
-!development/
-!tools/
-!install-packages/
-!.gitignore
-*
+autosave/
+backup/
+elpa/
+projectile-bookmarks.eld
+recentf

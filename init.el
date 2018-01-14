@@ -41,5 +41,6 @@
 
 (require 'tools)
 (require 'development)
+(require 'ui)
 
 ;;; init.el ends here

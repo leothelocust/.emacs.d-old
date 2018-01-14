@@ -13,7 +13,7 @@
 (setq projectile-mode-line '(:eval (format " %s" (projectile-project-name)))
       projectile-remember-window-configs t
       projectile-completion-system 'ivy)
-(counsel-projectile-on)
+(counsel-projectile-mode)
 
 (provide '_projectile)
 

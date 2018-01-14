@@ -9,7 +9,9 @@
 (require 'package)
 
 (defvar my-packages
-  '(better-defaults
+  '(all-the-icons
+    anzu
+    better-defaults
     company
     company-go
     counsel
@@ -23,6 +25,7 @@
     go-playground
     gorepl-mode
     flycheck
+    iedit
     ivy
     ivy-hydra
     json-mode
@@ -31,8 +34,10 @@
     projectile
     py-autopep8
     rainbow-delimiters
+    shrink-path
     tide
     typescript-mode
+    use-package
     web-mode
     which-key))
 
