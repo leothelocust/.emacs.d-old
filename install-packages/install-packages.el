@@ -19,6 +19,7 @@
     diminish
     dockerfile-mode
     ein
+    eldoc-eval
     elpy
     gitignore-mode
     go-mode

@@ -1,5 +1,9 @@
 autosave/
 backup/
 elpa/
+request/
 projectile-bookmarks.eld
 recentf
+ido.last
+.org-id-locations
+projectile.cache
