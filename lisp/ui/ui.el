@@ -1,6 +1,6 @@
 ;;; ui.el --- config specific to UI
 
-;;; Author: Chris Bergquist
+;; Author: Chris Bergquist
 
 ;;; Commentary:
 
