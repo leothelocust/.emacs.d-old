@@ -24,7 +24,7 @@
 
 (defvar doom--transient-counter 0)
 (defmacro add-transient-hook! (hook &rest forms)
-  "Attaches transient FORMS to a HOOK.
+  "Attaches transient forms to a HOOK.
 
 HOOK can be a quoted hook or a sharp-quoted function (which will be advised).
 
