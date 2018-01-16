@@ -1,4 +1,3 @@
-
 ;; init.el --- Emacs configuration
 
 ;; AUTHOR: Chris Bergquist
@@ -12,7 +11,8 @@
 
 (package-initialize)
 
-(let ((default-directory "~/.emacs.d/"))
+(let ((default-directory  "~/.emacs.d/lisp/"))
+  (normal-top-level-add-to-load-path '("."))
   (normal-top-level-add-subdirs-to-load-path))
 
 (require 'install-packages)

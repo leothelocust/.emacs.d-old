@@ -1,6 +1,10 @@
-;;; package --- Summary
+;;; _functions.el --- Custom functions.
+
+;; AUTHOR: Levi Olson <olson.levi@gmail.com>
 
 ;;; Commentary:
+
+;; Custom functions go here so as not to conflict with the main repo.
 
 ;;; Code:
 
@@ -148,7 +152,6 @@
 (defun c-setup ()
   "Compile."
   (local-set-key (kbd "C-c C-c") 'compile))
-
 
 
 (provide '_functions)

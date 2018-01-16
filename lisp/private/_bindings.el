@@ -1,6 +1,10 @@
-;;; package --- Summary
+;;; _bindings.el --- Custom bindings
+
+;; AUTHOR: Levi Olson <olson.levi@gmail.com>
 
 ;;; Commentary:
+
+;; Custom bindings go here so as not to conflict with the main repo.
 
 ;;; Code:
 
@@ -57,7 +61,6 @@
 (define-key custom-bindings-map (kbd "C-o")         'new-line-below)
 (define-key custom-bindings-map (kbd "C-S-o")       'new-line-above)
 (define-key custom-bindings-map (kbd "<C-tab>")     'tidy)
-(define-key custom-bindings-map (kbd "M-§")         'toggle-shell)
 
 (define-minor-mode custom-bindings-mode
   "A mode that activates custom-bindings-map."
