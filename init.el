@@ -9,9 +9,6 @@
 ;; INSTALL PACKAGES
 ;; --------------------------------------------------------------------
 
-;; (let ((default-directory  "~/.emacs.d/lisp/"))
-;;   (normal-top-level-add-to-load-path '("."))
-;;   (normal-top-level-add-subdirs-to-load-path))
 (add-to-list 'load-path "~/.emacs.d/lisp/")
 (add-to-list 'load-path "~/.emacs.d/lisp/development")
 (add-to-list 'load-path "~/.emacs.d/lisp/install-packages/")
