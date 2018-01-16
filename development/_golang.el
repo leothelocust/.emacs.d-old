@@ -33,8 +33,8 @@
 
 (when window-system (set-exec-path-from-shell-PATH))
 
-(setenv "GOPATH" "/home/cbergquist/go")
-(add-to-list 'exec-path "/home/cbergquist/go/bin")
+(setenv "GOPATH" "/home/locust/go")
+(add-to-list 'exec-path "/home/locust/go/bin")
 
 (provide '_golang)
 

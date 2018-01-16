@@ -16,6 +16,7 @@
 (require 'all-the-icons)
 
 (defsubst doom--prepare-modeline-segments (segments)
+  "."
   (cl-loop for seg in segments
            if (stringp seg)
             collect seg
@@ -24,7 +25,7 @@
 
 (defvar doom--transient-counter 0)
 (defmacro add-transient-hook! (hook &rest forms)
-  "Attaches transient forms to a HOOK.
+  "Attaches transient FORMS to a HOOK.
 
 HOOK can be a quoted hook or a sharp-quoted function (which will be advised).
 

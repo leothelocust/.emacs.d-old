@@ -18,6 +18,7 @@
     counsel-projectile
     diminish
     dockerfile-mode
+    doom-themes
     ein
     eldoc-eval
     elpy
