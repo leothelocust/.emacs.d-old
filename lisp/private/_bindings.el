@@ -9,7 +9,7 @@
 ;;; Code:
 
 (require 'company)
-(require '_functions)
+(load "_functions")
 
 (add-hook 'comint-mode-hook (lambda () (local-set-key (kbd "C-l") 'clear-comint)))
 (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)

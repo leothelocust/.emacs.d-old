@@ -9,8 +9,8 @@
 
 ;;; Code:
 
-(require '_functions)
-(require '_bindings)
+(load "_functions")
+(load "_bindings")
 
 
 (provide 'private)

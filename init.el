@@ -9,13 +9,17 @@
 ;; INSTALL PACKAGES
 ;; --------------------------------------------------------------------
 
-(package-initialize)
+;; (let ((default-directory  "~/.emacs.d/lisp/"))
+;;   (normal-top-level-add-to-load-path '("."))
+;;   (normal-top-level-add-subdirs-to-load-path))
+(add-to-list 'load-path "~/.emacs.d/lisp/")
+(add-to-list 'load-path "~/.emacs.d/lisp/development")
+(add-to-list 'load-path "~/.emacs.d/lisp/install-packages/")
+(add-to-list 'load-path "~/.emacs.d/lisp/private/")
+(add-to-list 'load-path "~/.emacs.d/lisp/tools/")
+(add-to-list 'load-path "~/.emacs.d/lisp/ui/")
 
-(let ((default-directory  "~/.emacs.d/lisp/"))
-  (normal-top-level-add-to-load-path '("."))
-  (normal-top-level-add-subdirs-to-load-path))
-
-(require 'install-packages)
+(load "install-packages")
 (require 'better-defaults)
 
 ;; BASIC CUSTOMIZATION
@@ -40,10 +44,10 @@
 
 (defalias 'yes-or-no-p 'y-or-n-p)
 
-(require 'private)
-(require 'tools)
-(require 'development)
-(require 'ui)
+(load "private")
+(load "tools")
+(load "development")
+(load "ui")
 
 ;;; init.el ends here
 (custom-set-variables

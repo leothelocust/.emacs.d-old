@@ -1,6 +1,6 @@
 ;;; install-packages.el --- Emacs Package Installation
 
-;; Author: Chris Bergquist
+;; AUTHOR: Chris Bergquist
 
 ;;; Commentary:
 
