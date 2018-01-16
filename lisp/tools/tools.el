@@ -10,13 +10,11 @@
 (which-key-setup-minibuffer)
 (which-key-mode)
 
-(require '_company)
-(require '_diminish)
-(require '_ivy)
-(require '_magit)
-(require '_projectile)
-
-
+(load "_company")
+(load "_diminish")
+(load "_ivy")
+(load "_magit")
+(load "_projectile")
 
 (provide 'tools)
 

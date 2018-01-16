@@ -6,7 +6,7 @@
 
 ;;; Code:
 
-(require '_modeline)
+(load "_modeline")
 
 (cond ((member "Essential PragmataPro" (font-family-list))
        (set-face-attribute 'default nil :font "Essential PragmataPro-14")))

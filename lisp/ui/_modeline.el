@@ -16,7 +16,6 @@
 (require 'all-the-icons)
 
 (defsubst doom--prepare-modeline-segments (segments)
-  "."
   (cl-loop for seg in segments
            if (stringp seg)
             collect seg

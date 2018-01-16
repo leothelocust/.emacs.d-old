@@ -20,9 +20,9 @@
 (electric-pair-mode 1)
 (show-paren-mode 1)
 
-(require '_python)
-(require '_golang)
-(require '_typescript)
+(load "_python")
+(load "_golang")
+(load "_typescript")
 
 (require 'dockerfile-mode)
 (add-to-list 'auto-mode-alist '("Dockerfile*\\'" . dockerfile-mode))
